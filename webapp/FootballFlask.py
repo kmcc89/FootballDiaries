@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request
-from flask_nav import Nav
-from flask_nav.elements import Navbar, Subgroup, View, Link, Text, Separator
+#from flask_nav import Nav
+#from flask_nav.elements import Navbar, Subgroup, View, Link, Text, Separator
 
 from DBcm import UseDatabase
 
 
 app = Flask(__name__)
 
-app.config['dbconfig'] = {  'host':'127.0.0.1',
+app.config['dbconfig'] = {  'host':'172.20.10.5',
                             'user':'kevin',
+                            'port': '3306',
                             'password':'pass',
                             'database':'test_football',}
 
@@ -16,6 +17,9 @@ app.config['dbconfig'] = {  'host':'127.0.0.1',
 def hello() -> str:
     return 'Hello from football diary!'
 
+@app.route('/about')
+def viewabout() -> 'html':
+    return render_template('aboutpage.html',)
 
 @app.route('/viewResults')
 def show_book_reviews() -> 'html':
