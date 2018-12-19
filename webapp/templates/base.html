@@ -3,7 +3,9 @@
  <html>
 
 	<head>
-		<title>{{ the_title }}</title>
+        {% block head %}
+		<title>{% block title %}{% endblock %}</title>
+        {% endblock %}
 		<!--LINK TO STYLESHEET NOT WORKING
         <link rel="stylesheet" href="../static/mystyle.css">
         -->
@@ -19,6 +21,19 @@
 		<h1>Football Diaries</h1>
 	</header>
 
+<div>
+
+<a href="/about" >HOME</a>
+
+<a href="/statstable" >STATS TABLE </a>
+
+<a href="/statsgraph" >STATS GRAPH</a>
+
+<a href="statsQandA" >STATS Q & A</a>
+
+<a href="statsmatches" >MATCHES Q & A</a>
+
+</div>
 		{% block body %}
 
 
@@ -26,3 +41,9 @@
 
 	</body>
  </html>
+
+
+
+
+
+
