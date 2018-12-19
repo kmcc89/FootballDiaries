@@ -65,4 +65,12 @@ def show_united_wins() -> 'html':
                            the_title='Wins',
                            the_row_titles=titles,
                            the_data=contents, )
+
+@app.route('/showTem')
+def show_team() -> 'html':
+
+    return "Show Teams"
+
+
+
 app.run(debug=True)
