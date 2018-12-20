@@ -2,14 +2,15 @@ from flask import Flask, render_template, request, session, flash
 #from flask_nav import Nav
 #from flask_nav.elements import Navbar, Subgroup, View, Link, Text, Separator
 #from checker import check_logged_in
-
+from flask import send_from_directory, request
 from DBcm import UseDatabase
 
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path="")
 app.secret_key = 'YouWillNeverGuess'
 
-app.config['dbconfig'] = {  'host':'',
+app.config['dbconfig'] = {  'host':'172.20.10.5',
+                            'port':'3306',
                             'user':'kevin',
                             'password':'pass',
                             'database':'test_football',}
@@ -26,13 +27,29 @@ def getuser() -> str:
 
 @app.route('/')
 def hello() -> str:
-    return render_template('/index.html')
+    return render_template('/aboutpage.html')
 
 
 @app.route('/logUserIn')
 def log_user_in() -> 'html':
 
     return render_template('/login.html')
+
+@app.route('/graph')
+def send_statsbar () -> 'html':
+
+    return render_template('/statsbar.html')
+
+@app.route('/register')
+def send_register () -> 'html':
+
+    return render_template('/register.html')
+
+@app.route('/linegraph')
+def send_linegraph () -> 'html':
+
+    return render_template('/statsgraph.html')
+
 
 
 @app.route('/login', methods=['POST'])
@@ -67,6 +84,7 @@ def do_logout() -> str:
     return render_template('/index.html')
 
 
+
 @app.route('/status')
 def check_status() -> str:
     if 'logged_in' in session:
@@ -83,7 +101,7 @@ def check_status() -> str:
 
 
 @app.route('/page1')
-@check_logged_in
+#@check_logged_in
 def show_book_reviews() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -94,14 +112,14 @@ def show_book_reviews() -> 'html':
 
     titles = ('Home Team', 'Away Team', 'Home Score', 'Away Score')
 
-    return render_template('bookReviews.html',
+    return render_template('unitedWins.html',
                            the_title='Match Results',
                            the_row_titles=titles,
                            the_data=contents,)
 
 
-@app.route('/page2')
-@check_logged_in
+@app.route('/statstable')
+#@check_logged_in
 def show_red_cards() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -112,14 +130,14 @@ def show_red_cards() -> 'html':
 
     titles = ('Team', 'Yellows', 'Reds', 'Season')
 
-    return render_template('cards.html',
+    return render_template('unitedWins.html',
                            the_title='Disciplinary Record',
                            the_row_titles=titles,
                            the_data=contents,)
 
 
 @app.route('/page3')
-@check_logged_in
+#@check_logged_in
 def show_united_wins() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -130,7 +148,7 @@ def show_united_wins() -> 'html':
 
     titles = ('Team', 'Season', 'Wins')
 
-    return render_template('cards.html',
+    return render_template('unitedWins.html',
                            the_title='Wins',
                            the_row_titles=titles,
                            the_data=contents, )

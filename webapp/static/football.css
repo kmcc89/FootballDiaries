@@ -31,14 +31,13 @@ a {
     font-weight: bold;
     background-color: gray;
     Margin-left: 150px;
+    font-color: gray;
 }
 
-body {
-    font-family: 'Handlee', cursive;
-    font-size: 13pt;
-    padding: 10px;
-    margin: 0;
-    background-color: aquamarine;
+body{
+    background: url("/static/image/soccer4.jpg") no-repeat fixed;
+    background-size: cover;
+    background-color: lightgrey;
 
 }
 

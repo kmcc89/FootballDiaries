@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block head %}
+		<link rel="stylesheet" href="/static/login.css">
+{% endblock %}
+
+{% block body %}
+<html>
+<head>
+    <style>
+    body{
+    background-color: #444444;
+    background-image: url("go.jpg");
+    background-repeat: no-repeat;
+    background-size:390px 700px;
+    }
+    h1{
+    color: #e2e2e2;
+    }
+    table{
+        color: #e2e2e2;
+    }
+    .regi{
+    background-color:#393535;
+    color:white;
+    padding-left:10px;
+    padding-right:10px;
+    border-radius:10px;
+    padding-bottom:2px;
+    padding-top:2px;
+    font-size:20px;
+    float: right;
+                margin: auto
+    }
+    .reset{
+
+           padding-left:10px;
+    padding-right:10px;
+    border-radius:10px;
+    padding-bottom:2px;
+    padding-top:2px;
+    background-color:#393535;
+    color:white;
+    font-size:20px;
+    float: left;
+                margin: auto
+    }
+</style>
+</head>
+<body>
+
+<form>
+
+<center>
+   <h1><strong>Registration Form </strong></h1><center>
+
+
+       <table align="center">
+           <tr><td>
+  First     Name:
+       </td><td>
+         <input type='text' name='name' required placeholder="First name">
+<br> </td>
+</tr><tr>
+<td>&nbsp;</td>
+</tr><tr><td>
+    Last Name:
+    </td><td>
+    <input type='text' name='name' required placeholder="Last name"> <br></td> </tr><tr>
+            <td>&nbsp;</td>
+            </tr><tr><td>
+    Date Of Birth:
+    </td><td>
+    <input type='date' name='dd/mm/yyyy' required>
+
+    </td> </tr>
+    <tr><td>
+    &nbsp;
+      Gender:  </td> <td>
+                &nbsp;<br> <select>
+       <option value="1">
+       Male </option>
+       <option value="2">
+       Female </option>
+       </select>
+    <br>&nbsp;</td>
+     </tr><tr><td>
+   Address:
+   </td><td>
+       <textarea cols="22" rows="3"placeholder="address"></textarea>
+  </td> </tr><tr><td>
+        <br>&nbsp;</td>
+        </tr><tr><td>
+    Phone:
+    </td><td>
+    <input type='phone' name='phone' placeholder="phone no."></td> </tr><tr><td>
+     <br>&nbsp;</td> </tr><tr><td>
+    Email:
+    </td><td>
+   <input type='email' name='example@email.com' required placeholder="example@email.com">
+ </td> </tr><tr><td>&nbsp;</td> </tr><tr><td>
+
+<input type='submit' name='REGISTER' value="register" align="center" class="regi"> </td> <td>
+
+
+<input type='reset' name='reset' value="reset" align="center" class="reset">
+</td>
+</tr></table>
+</body>
+</html>
+
+{% endblock %}
