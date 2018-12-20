@@ -1,52 +1,89 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, flash
 #from flask_nav import Nav
 #from flask_nav.elements import Navbar, Subgroup, View, Link, Text, Separator
+#from checker import check_logged_in
+
 from DBcm import UseDatabase
 
 
 app = Flask(__name__)
+app.secret_key = 'YouWillNeverGuess'
 
-app.config['dbconfig'] = {  'host':'172.20.10.5',
+app.config['dbconfig'] = {  'host':'',
                             'user':'kevin',
-                            'port': '3306',
                             'password':'pass',
                             'database':'test_football',}
 
 
+@app.route('/setuser/<user>')
+def setuser(user: str) -> str:
+    session['user'] = user
+    return 'User value set to ' + session['user']
+
+@app.route('/getuser')
+def getuser() -> str:
+    return 'User value is currently set to: ' + session['user']
 
 @app.route('/')
 def hello() -> str:
-    return 'Hello from football diary!'
+    return render_template('/index.html')
 
-@app.route('/about')
-def viewabout() -> 'html':
-    return render_template('aboutpage.html',)
 
-@app.route('/login')
-def viewlogin() -> 'html':
-    return render_template('login.html',)
+@app.route('/logUserIn')
+def log_user_in() -> 'html':
 
-@app.route('/statstable')
-def viewstatstable() -> 'html':
-    return render_template('statstable.html',)
+    return render_template('/login.html')
 
-@app.route('/statsbar')
-def viewstatsbar() -> 'html':
-    return render_template('statsbar.html',)
 
-@app.route('/statsgraph')
-def viewstatsgraph() -> 'html':
-    return render_template('statsgraph.html',)
+@app.route('/login', methods=['POST'])
+def do_login() -> str:
+    user_name = request.form['username']
+    pass_word = request.form['password']
 
-@app.route('/statsQandA')
-def viewstatsQandA() -> 'html':
-    return render_template('statsQandA.html',)
+    with UseDatabase(app.config['dbconfig']) as cursor:
+        _SQL = """ SELECT username, password FROM users"""
 
-@app.route('/statsmatches')
-def viewstatsmatches() -> 'html':
-    return render_template('statsmatches.html',)
+        cursor.execute(_SQL)
+        contents = cursor.fetchall()
 
-@app.route('/viewResults')
+    for row in contents:
+        if row[0] == user_name:
+            if row[1] == pass_word:
+                titles = ('Username', 'Password')
+                session['logged_in'] = True
+                flash('You are now logged in')
+                return render_template('/index.html',
+                                        the_row_titles=titles,
+                                        the_data=contents,)
+
+    flash('Login details incorrect. Try again')
+    return render_template('/index.html')
+
+@app.route('/logout')
+def do_logout() -> str:
+    if 'logged_in' in session:
+        session.pop('logged_in')
+    flash('You are now logged out')
+    return render_template('/index.html')
+
+
+@app.route('/status')
+def check_status() -> str:
+    if 'logged_in' in session:
+        flash('Login Status: You are logged in')
+        return render_template('/index.html')
+    flash('Login status: You are not logged in')
+    return render_template('/index.html')
+
+
+#def check_logged_in() -> bool:
+#    if 'logged_in' in session:
+#        return True
+#    return False
+
+
+@app.route('/page1')
+@check_logged_in
 def show_book_reviews() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -63,7 +100,8 @@ def show_book_reviews() -> 'html':
                            the_data=contents,)
 
 
-@app.route('/viewRedCards')
+@app.route('/page2')
+@check_logged_in
 def show_red_cards() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -79,7 +117,9 @@ def show_red_cards() -> 'html':
                            the_row_titles=titles,
                            the_data=contents,)
 
-@app.route('/unitedWins')
+
+@app.route('/page3')
+@check_logged_in
 def show_united_wins() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -92,8 +132,15 @@ def show_united_wins() -> 'html':
 
     return render_template('cards.html',
                            the_title='Wins',
-                           my_name='Mike', )
-app.run(debug=True)
+                           the_row_titles=titles,
+                           the_data=contents, )
 
 
+@app.route('/showTem')
+def show_team() -> 'html':
 
+    return "Show Teams"
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
