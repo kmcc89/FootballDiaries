@@ -172,10 +172,17 @@ def show_united_wins() -> 'html':
                            the_data=contents, )
 
 
-@app.route('/showTem')
-def show_team() -> 'html':
+@app.route('/topTensForm')
+def show_top_tens_form() -> 'html':
 
-    return "Show Teams"
+    return render_template('/topTens.html')
+
+@app.route('/showTopTens')
+
+
+@app.route('/teamStatsForm')
+def show_team_stats_form() -> 'html':
+    return render_template('/teamsStats.html')
 
 
 if __name__ == '__main__':

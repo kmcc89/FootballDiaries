@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<form action="/showTopTens" method="POST">
+
+    <select name="season_name" required>
+        <option value="20017-2018">2017/18</option>
+        <option value="2016-2017">2016/17</option>
+        <option value="2015-2016">2015/16</option>
+    </select><br>
+
+    <select name="stat_name" required>
+        <option value="wins">Wins</option>
+        <option value="losses">Losses</option>
+        <option value="goals">Goals</option>
+    </select><br>
+
+    <input type="submit" value="Submit">
+
+</form>
+
+{% endblock %}
