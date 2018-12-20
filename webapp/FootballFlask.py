@@ -57,7 +57,43 @@ def do_login() -> str:
                                         the_data=contents,)
 
     flash('Login details incorrect. Try again')
+    return log_user_in()
+
+
+@app.route('/registerPage')
+def load_register_page() -> 'html':
+    return render_template('/register.html')
+
+
+@app.route('/register', methods=['POST'])
+def register_user() -> 'html':
+
+    user_name = request.form.get('username', "")
+    pass_word = request.form.get('psw',"")
+    pass_word_rpt = request.form.get('psw-repeat',"")
+
+    with UseDatabase(app.config['dbconfig']) as cursor:
+        _SQL = """ SELECT username FROM users"""
+
+        cursor.execute(_SQL)
+        contents = cursor.fetchall()
+
+        for row in contents:
+            if row[0] == user_name:
+                flash('Username already taken. Try again.')
+                return render_template('/register.html')
+
+        if pass_word != pass_word_rpt:
+            flash('Passwords must match. Please re-enter')
+            return render_template('/register.html')
+
+        cursor.execute("INSERT INTO users (username, password) "
+                       "VALUES (%s, %s)",
+                       (user_name, pass_word))
+
+    flash('User successfully registered!')
     return render_template('/index.html')
+
 
 @app.route('/logout')
 def do_logout() -> str:
