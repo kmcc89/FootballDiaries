@@ -173,16 +173,58 @@ def show_united_wins() -> 'html':
 
 
 @app.route('/topTensForm')
+@check_logged_in
 def show_top_tens_form() -> 'html':
 
     return render_template('/topTens.html')
 
-@app.route('/showTopTens')
+@app.route('/showTopTens', methods=['POST'])
+def show_top_tens() -> 'html':
+
+    stat_name = request.form['stat_name']
+    season_name = request.form['season_name']
+
+    with UseDatabase(app.config['dbconfig']) as cursor:
+
+        cursor.execute(" SELECT team, "+stat_name+" FROM stats WHERE season='"
+                       + season_name + "' ORDER BY "
+                       + stat_name + " DESC LIMIT 10 ")
+
+        contents = cursor.fetchall()
+
+    titles = ('Team', stat_name)
+
+    return render_template('/cards.html',
+                           the_title='Top Ten Stats',
+                           the_row_titles=titles,
+                           the_data=contents,)
 
 
 @app.route('/teamStatsForm')
+@check_logged_in
 def show_team_stats_form() -> 'html':
-    return render_template('/teamsStats.html')
+    return render_template('/teamStats.html')
+
+@app.route('/showTeamStats', methods=['POST'])
+def show_team_stats() -> 'html':
+
+    team_name = request.form['team_name']
+    season_name = request.form['season_name']
+
+    with UseDatabase(app.config['dbconfig']) as cursor:
+
+        cursor.execute(" SELECT wins, losses, goals, goals_conceded, clean_sheet, total_yel_card, total_red_card FROM stats WHERE team='"+team_name+"' AND season='"+season_name+"' ")
+
+        contents = cursor.fetchall()
+
+    titles = ('Wins', 'Losses', 'Goals', 'Goals Conceded', 'Clean Sheets', 'Yellow Cards', 'Red Cards')
+    description = (team_name + " statistics for "+ season_name + " season")
+
+    return render_template('/cards.html',
+                           the_title='Team Stats',
+                           the_row_titles=titles,
+                           the_description=description,
+                           the_data=contents, )
 
 
 if __name__ == '__main__':
