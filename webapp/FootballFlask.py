@@ -50,6 +50,11 @@ def send_linegraph () -> 'html':
 
     return render_template('/statsgraph.html')
 
+@app.route('/logout')
+def send_logout () -> 'html':
+
+    return render_template('/logout.html')
+
 
 
 @app.route('/login', methods=['POST'])

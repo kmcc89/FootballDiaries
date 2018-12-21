@@ -34,10 +34,12 @@ a {
     font-color: gray;
 }
 
-body{
-    background: url("/static/image/soccer4.jpg") no-repeat fixed;
-    background-size: cover;
-    background-color: lightgrey;
+body {
+    font-family: 'Handlee', cursive;
+    font-size: 13pt;
+    padding: 10px;
+    margin: 0;
+    background-color: aquamarine;
 
 }
 
