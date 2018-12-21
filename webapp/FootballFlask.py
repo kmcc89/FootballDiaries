@@ -140,6 +140,11 @@ def show_united_wins() -> 'html':
 def send_chartjs () -> 'html':
     return render_template('chartjs.html',)
 
+@app.route('/register')
+def send_regForm() -> 'html':
+    return render_template('/regForm.html')
+
+
 @app.route('/showTem')
 def show_team() -> 'html':
 

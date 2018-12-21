@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
  <html>
 
 	<head>
@@ -25,13 +24,14 @@
 
 <a href="/" >HOME</a>
 
-<a href="/page1" >STATS TABLE </a>
+<a href="{{ url_for('show_book_reviews') }}" >STATS TABLE </a>
 
 <a href="/page2" >STATS GRAPH</a>
 
 <a href="/page3" >STATS Q & A</a>
 
-<a href="/graph" >MATCHES Q & A</a>
+<a href="/graph" >Q & A</a>
+<a href="{{ url_for('send_regForm') }}" >Register</a>
 
 </div>
 		{% block body %}
