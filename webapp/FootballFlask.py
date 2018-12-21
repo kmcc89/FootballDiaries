@@ -36,10 +36,10 @@ def log_user_in() -> 'html':
     return render_template('/login.html')
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def do_login() -> str:
-    user_name = request.form['username']
-    pass_word = request.form['password']
+    username = request.form['username']
+    password = request.form['password']
 
     with UseDatabase(app.config['dbconfig']) as cursor:
         _SQL = """ SELECT username, password FROM users"""
@@ -48,17 +48,17 @@ def do_login() -> str:
         contents = cursor.fetchall()
 
     for row in contents:
-        if row[0] == user_name:
-            if row[1] == pass_word:
+        if row[0] == username:
+            if row[1] == password:
                 titles = ('Username', 'Password')
                 session['logged_in'] = True
                 flash('You are now logged in')
-                return render_template('/index.html',
+                return render_template('/aboutpage.html',
                                         the_row_titles=titles,
                                         the_data=contents,)
 
     flash('Login details incorrect. Try again')
-    return render_template('/index.html')
+    return render_template('/login.html')
 
 @app.route('/logout')
 def do_logout() -> str:
@@ -140,15 +140,10 @@ def show_united_wins() -> 'html':
 def send_chartjs () -> 'html':
     return render_template('chartjs.html',)
 
+
 @app.route('/register')
 def send_regForm() -> 'html':
     return render_template('/regForm.html')
-
-
-@app.route('/showTem')
-def show_team() -> 'html':
-
-    return "Show Teams"
 
 
 if __name__ == '__main__':

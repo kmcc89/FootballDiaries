@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
  <html>
 
 	<head>
@@ -10,7 +11,7 @@
         -->
 		<!--LINK TO W3 SCHOOLS STYLE SHEET
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-		<link rel="stylesheet" href="/static/football.css">
+		<link rel="stylesheet" href="{{url_for('static', filename='football.css')}}">
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 	</head>
@@ -26,11 +27,13 @@
 
 <a href="{{ url_for('show_book_reviews') }}" >STATS TABLE </a>
 
-<a href="/page2" >STATS GRAPH</a>
+<a href="/page2" >STATS</a>
 
 <a href="/page3" >STATS Q & A</a>
 
-<a href="/graph" >Q & A</a>
+<a href="{{ url_for('log_user_in') }}" >Login</a>
+
+<a href="/graph" >Graph</a>
 <a href="{{ url_for('send_regForm') }}" >Register</a>
 
 </div>

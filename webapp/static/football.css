@@ -1,5 +1,5 @@
 h1{
-    text-align: center;
+    text-align: left;
     color: black;
     font-family: arial;
     font-size: 100px;
@@ -7,7 +7,7 @@ h1{
 }
 
 p{
-    text-align: center;
+    text-align: left;
     color: black;
     font-family: arial;
     font-size: 20px;
@@ -16,7 +16,7 @@ p{
 }
 
 img{
-    text-align: center;
+    text-align: right;
     padding: 20px;
     image-orientation: flip;
     image-rendering: auto;
@@ -42,3 +42,6 @@ body {
 
 }
 
+image{
+    image
+}
